@@ -912,13 +912,11 @@ p {
 
 .grid-wrap {
   position: relative;
+  display: grid;
+  gap: 12px;
 }
 
 .board-chip-row {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  z-index: 5;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -937,12 +935,9 @@ p {
 }
 
 .execution-banner {
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  z-index: 6;
   display: grid;
   gap: 2px;
+  justify-self: end;
   max-width: min(58%, 280px);
   border: 2px solid rgba(255, 255, 255, 0.86);
   border-radius: 18px;
@@ -995,31 +990,30 @@ p {
 
 .robot-token,
 .target-token,
-.step-token,
 .rock-token {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(64%, 58px);
+  width: min(54%, 48px);
   aspect-ratio: 1;
-  border-radius: 18px;
+  border-radius: 16px;
   background: #fff;
   box-shadow: 0 8px 0 rgba(46, 157, 216, 0.14);
 }
 
 .robot-token strong {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: -5px;
+  top: -5px;
   display: grid;
   place-items: center;
-  width: 24px;
+  width: 21px;
   aspect-ratio: 1;
   border-radius: 999px;
   background: #e4f7ff;
   color: #1f5f9d;
   border: 2px solid #ffffff;
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   line-height: 1;
   box-shadow: 0 4px 0 rgba(46, 157, 216, 0.12);
 }
@@ -1029,7 +1023,7 @@ p {
   left: var(--robot-left);
   top: var(--robot-top);
   z-index: 5;
-  width: min(calc(64% / var(--grid-size)), 58px);
+  width: min(calc(54% / var(--grid-size)), 48px);
   transform: translate(-50%, -50%);
   transition: left 0.42s cubic-bezier(.2,.9,.22,1), top 0.42s cubic-bezier(.2,.9,.22,1);
   pointer-events: none;
@@ -1045,11 +1039,17 @@ p {
 }
 
 .step-token {
-  width: min(42%, 38px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(36%, 32px);
+  aspect-ratio: 1;
+  border-radius: 999px;
   color: #1f5f9d;
   background: rgba(255, 255, 255, 0.72);
-  border: 3px dashed rgba(46, 157, 216, 0.36);
+  border: 2px dashed rgba(46, 157, 216, 0.36);
   font-weight: 900;
+  box-shadow: none;
 }
 
 .rock-token {
@@ -1741,8 +1741,56 @@ p {
   }
 
   .grid-board {
+    border-width: 6px;
+    border-radius: 22px;
     min-height: 0;
     width: 100%;
+  }
+
+  .grid-cell {
+    border-width: 1px;
+  }
+
+  .board-chip-row {
+    gap: 6px;
+  }
+
+  .distance-chip {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.92rem;
+  }
+
+  .execution-banner {
+    justify-self: stretch;
+    max-width: none;
+    border-radius: 16px;
+    padding: 8px 12px;
+  }
+
+  .robot-token,
+  .target-token,
+  .rock-token {
+    width: min(48%, 42px);
+    border-radius: 14px;
+    box-shadow: 0 5px 0 rgba(46, 157, 216, 0.12);
+  }
+
+  .play-robot {
+    width: min(calc(48% / var(--grid-size)), 42px);
+  }
+
+  .robot-token strong {
+    right: -3px;
+    top: -3px;
+    width: 19px;
+    border-width: 2px;
+    font-size: 0.72rem;
+  }
+
+  .step-token {
+    width: min(32%, 28px);
+    font-size: 0.95rem;
   }
 
   .command-panel {
