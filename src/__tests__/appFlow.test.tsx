@@ -132,6 +132,9 @@ describe("App flow", () => {
       expect(screen.getByText("指令卡片")).toBeInTheDocument();
       expect(screen.getByText("这关要做的动作")).toBeInTheDocument();
       expect(screen.getByText(/前进不是固定向上走/)).toBeInTheDocument();
+      expect(document.querySelectorAll(".play-robot").length, `${mission.id} should show one robot`).toBe(1);
+      expect(document.querySelectorAll(".target-token").length, `${mission.id} should show one target`).toBe(1);
+      expect(document.querySelectorAll(".rock-token").length, `${mission.id} obstacle count mismatch`).toBe(mission.obstacles.length);
       for (const step of mission.solution) {
         const card = commandCards.find((item) => item.type === step.type);
         expect(card, `${mission.id} solution card not found`).toBeTruthy();

@@ -533,31 +533,31 @@ p {
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
-  width: min(50%, 36px);
+  width: min(42%, 32px);
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.92);
   font-size: clamp(1rem, 3vw, 1.5rem);
-  filter: drop-shadow(0 8px 0 rgba(40,48,68,0.1));
+  filter: drop-shadow(0 4px 0 rgba(40,48,68,0.08));
   animation: robotHop 0.7s cubic-bezier(.2,.9,.22,1);
   z-index: 3;
 }
 
 .story-grid .story-robot strong {
   position: absolute;
-  right: -9px;
-  top: -9px;
+  right: 2px;
+  top: 2px;
   display: grid;
   place-items: center;
-  width: 24px;
+  width: 16px;
   aspect-ratio: 1;
   border-radius: 999px;
   background: #e4f7ff;
   color: #1f5f9d;
-  border: 2px solid #ffffff;
-  font-size: 0.82rem;
+  border: 1px solid #ffffff;
+  font-size: 0.62rem;
   line-height: 1;
-  box-shadow: 0 4px 0 rgba(46, 157, 216, 0.12);
+  box-shadow: none;
 }
 
 .story-grid .story-energy {
@@ -566,9 +566,9 @@ p {
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
-  width: min(52%, 38px);
+  width: min(42%, 32px);
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: 12px;
   font-size: clamp(1rem, 3vw, 1.5rem);
   z-index: 2;
 }
@@ -578,7 +578,7 @@ p {
   place-items: center;
   width: 100%;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 12px;
   background: rgba(255, 241, 168, 0.92);
   filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
   animation: energyPulse 1.2s ease-in-out infinite;
@@ -595,9 +595,9 @@ p {
 .story-obstacle {
   display: grid;
   place-items: center;
-  width: min(50%, 36px);
+  width: min(42%, 32px);
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: 12px;
   color: #6b5c55;
   background: #d9c8b8;
   box-shadow: inset 0 -5px 0 rgba(103, 79, 64, 0.18);
@@ -994,28 +994,28 @@ p {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(54%, 48px);
+  width: min(44%, 40px);
   aspect-ratio: 1;
-  border-radius: 16px;
+  border-radius: 13px;
   background: #fff;
-  box-shadow: 0 8px 0 rgba(46, 157, 216, 0.14);
+  box-shadow: 0 4px 0 rgba(46, 157, 216, 0.1);
 }
 
 .robot-token strong {
   position: absolute;
-  right: -5px;
-  top: -5px;
+  right: 3px;
+  top: 3px;
   display: grid;
   place-items: center;
-  width: 21px;
+  width: 16px;
   aspect-ratio: 1;
   border-radius: 999px;
   background: #e4f7ff;
   color: #1f5f9d;
-  border: 2px solid #ffffff;
-  font-size: 0.78rem;
+  border: 1px solid #ffffff;
+  font-size: 0.62rem;
   line-height: 1;
-  box-shadow: 0 4px 0 rgba(46, 157, 216, 0.12);
+  box-shadow: none;
 }
 
 .play-robot {
@@ -1023,14 +1023,16 @@ p {
   left: var(--robot-left);
   top: var(--robot-top);
   z-index: 5;
-  width: min(calc(54% / var(--grid-size)), 48px);
+  width: min(calc(44% / var(--grid-size)), 40px);
   transform: translate(-50%, -50%);
   transition: left 0.42s cubic-bezier(.2,.9,.22,1), top 0.42s cubic-bezier(.2,.9,.22,1);
   pointer-events: none;
 }
 
 .robot-token.executing {
-  outline: 4px solid rgba(255, 231, 102, 0.62);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 231, 102, 0.82),
+    0 4px 0 rgba(46, 157, 216, 0.1);
 }
 
 .target-token {
@@ -1042,12 +1044,13 @@ p {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(36%, 32px);
+  width: min(28%, 24px);
   aspect-ratio: 1;
   border-radius: 999px;
   color: #1f5f9d;
   background: rgba(255, 255, 255, 0.72);
-  border: 2px dashed rgba(46, 157, 216, 0.36);
+  border: 1.5px dashed rgba(46, 157, 216, 0.36);
+  font-size: 0.86rem;
   font-weight: 900;
   box-shadow: none;
 }
@@ -1055,7 +1058,7 @@ p {
 .rock-token {
   color: #6b5c55;
   background: #d9c8b8;
-  box-shadow: inset 0 -8px 0 rgba(103, 79, 64, 0.18), 0 8px 0 rgba(46, 157, 216, 0.12);
+  box-shadow: inset 0 -5px 0 rgba(103, 79, 64, 0.18), 0 4px 0 rgba(46, 157, 216, 0.1);
 }
 
 .command-panel {
@@ -1771,26 +1774,26 @@ p {
   .robot-token,
   .target-token,
   .rock-token {
-    width: min(48%, 42px);
-    border-radius: 14px;
-    box-shadow: 0 5px 0 rgba(46, 157, 216, 0.12);
+    width: min(42%, 38px);
+    border-radius: 12px;
+    box-shadow: 0 3px 0 rgba(46, 157, 216, 0.1);
   }
 
   .play-robot {
-    width: min(calc(48% / var(--grid-size)), 42px);
+    width: min(calc(42% / var(--grid-size)), 38px);
   }
 
   .robot-token strong {
-    right: -3px;
-    top: -3px;
-    width: 19px;
-    border-width: 2px;
-    font-size: 0.72rem;
+    right: 2px;
+    top: 2px;
+    width: 14px;
+    border-width: 1px;
+    font-size: 0.56rem;
   }
 
   .step-token {
-    width: min(32%, 28px);
-    font-size: 0.95rem;
+    width: min(26%, 22px);
+    font-size: 0.78rem;
   }
 
   .command-panel {
