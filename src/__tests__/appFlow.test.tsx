@@ -53,16 +53,18 @@ describe("App flow", () => {
     expect(screen.getByText("3. 让机器人出发")).toBeInTheDocument();
     expect(screen.getByText("先看目标和机器人箭头。")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "▶ 重新播放" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "播放讲解" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "听老师讲解" })).toBeInTheDocument();
   });
 
   it("shows voice guidance for ordinary missions", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "开始太空任务" }));
     await userEvent.click(screen.getByRole("button", { name: /找到基地/ }));
-    expect(screen.getByText("语音和动画演示")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "播放语音" })).toBeInTheDocument();
-    expect(screen.getByText(/豆豆会听你的指令/)).toBeInTheDocument();
+    expect(screen.getByText("老师提示和动画演示")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "听老师提示" })).toBeInTheDocument();
+    expect(screen.getByText(/准备好了吗/)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "听老师提示" }));
+    expect(screen.getByText("老师正在带你读这段任务提示。")).toBeInTheDocument();
   });
 
   it("explains turn missions with direction rules before running", async () => {

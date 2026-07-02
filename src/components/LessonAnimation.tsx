@@ -21,8 +21,11 @@ export function LessonAnimation({ mission, onBack, onDone }: Props) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(narration);
       utterance.lang = "zh-CN";
-      utterance.rate = 0.9;
-      utterance.pitch = 1.15;
+      utterance.rate = 1.02;
+      utterance.pitch = 1.32;
+      utterance.volume = 1;
+      const teacherVoice = pickTeacherVoice(window.speechSynthesis.getVoices());
+      if (teacherVoice) utterance.voice = teacherVoice;
       window.speechSynthesis.speak(utterance);
     }
     setSpoken(true);
@@ -38,15 +41,15 @@ export function LessonAnimation({ mission, onBack, onDone }: Props) {
       <article className="mission-intro">
         <div className="lesson-chip">
           {isVideo ? <Clapperboard size={20} /> : <Headphones size={20} />}
-          {isVideo ? "2-4 分钟短动画" : "语音和动画演示"}
+          {isVideo ? "2-4 分钟短动画" : "老师提示和动画演示"}
         </div>
         <h1>{mission.title}</h1>
         <p>{mission.goal}</p>
         <ShortAnimation mission={mission} isVideo={isVideo} narration={narration} spoken={spoken} />
         <div className="lesson-actions">
-          <button className="voice-button" type="button" onClick={playNarration}>
+          <button className={spoken ? "voice-button speaking" : "voice-button"} type="button" onClick={playNarration}>
             <Volume2 size={18} />
-            {isVideo ? "播放讲解" : "播放语音"}
+            {isVideo ? "听老师讲解" : "听老师提示"}
           </button>
           <button className="primary-button large" type="button" onClick={onDone}>
             我看懂了
@@ -133,14 +136,14 @@ function ShortAnimation({
 
       <div className="story-copy">
         <span className="story-status">
-          {isFinished ? "短动画播放完成" : isVideo ? "短动画正在播放" : "语音引导准备好了"}
+          {isFinished ? "短动画播放完成" : isVideo ? "短动画正在播放" : "老师提示准备好了"}
         </span>
         <h2>{mission.title}</h2>
         <p>{narration}</p>
         <p className="story-current-step">
           {activeCard ? `正在执行：${activeCard.label} - ${describeCommand(activeCommand, currentFrame.direction)}` : "先看目标和机器人箭头。"}
         </p>
-        {spoken && <p className="spoken-hint">正在给孩子读这段任务提示。</p>}
+        {spoken && <p className="spoken-hint">老师正在带你读这段任务提示。</p>}
         <div className="story-card-demo">
           {mission.solution.map((command, index) => {
             const card = findCard(command.type);
@@ -251,16 +254,24 @@ function directionArrow(direction: Mission["startDirection"]) {
 
 function buildNarration(mission: Mission) {
   if (mission.id === "direction-1") {
-    return "小小指挥官，豆豆会听你的指令。请先看清能量站的位置，中间空了两格，所以要放三张前进卡，让豆豆一步一步走过去。";
+    return "准备好了吗？小小指挥官，眼睛看这里！豆豆要去能量站。中间空了两格，所以我们放三张前进卡。一、二、三，出发！";
   }
   if (mission.id === "direction-3") {
-    return "小小指挥官，这一关豆豆面朝上，基地在右边。先放右转卡，让豆豆转向右边，再放前进卡走到基地。";
+    return "准备好了吗？这关要先转身。豆豆现在朝上，基地在右边。先放右转身卡，再放前进卡。转过来，再走一步，漂亮！";
   }
   if (mission.planetId === "direction") {
-    return `小小指挥官，豆豆会听你的指令。这一关是${mission.title}。先看目标，再把前进、左转或右转卡片按顺序排好。`;
+    return `准备好了吗？这一关是${mission.title}。先看豆豆朝哪边，再看目标在哪里。想好了，就把前进、左转身、右转身卡片按顺序排好。`;
   }
   if (mission.planetId === "loop") {
-    return `小小指挥官，这一关是${mission.title}。如果路线里有重复动作，可以试试重复卡，让豆豆更省力。`;
+    return `准备好了吗？这一关是${mission.title}。如果你发现同样的动作一直出现，就试试重复卡。这样豆豆会更省力，路线也更清楚。`;
   }
-  return `小小指挥官，这一关是${mission.title}。如果豆豆走错了，不要着急，找出有问题的卡片，再换一步试试。`;
+  return `准备好了吗？这一关是${mission.title}。如果豆豆走错了，没关系。我们像小侦探一样，先找到有问题的卡片，再换一步试试。`;
+}
+
+function pickTeacherVoice(voices: SpeechSynthesisVoice[]) {
+  return (
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("zh") && /xiaoxiao|yaoyao|mei|ting|female|shelley/i.test(voice.name)) ??
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("zh")) ??
+    null
+  );
 }
