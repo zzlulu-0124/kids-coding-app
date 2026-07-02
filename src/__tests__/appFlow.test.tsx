@@ -133,6 +133,7 @@ describe("App flow", () => {
 
       expect(screen.getAllByText(mission.title).length, `${mission.id} title missing`).toBeGreaterThan(0);
       expect(screen.getByText(mission.goal)).toBeInTheDocument();
+      expect(document.querySelector(`audio[src*="${mission.id}"]`), `${mission.id} teacher audio missing`).toBeInTheDocument();
       await userEvent.click(screen.getByRole("button", { name: mission.introKind === "video" ? "我看懂了" : "我看懂了" }));
 
       expect(screen.getByText("小练习")).toBeInTheDocument();

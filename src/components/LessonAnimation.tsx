@@ -1,18 +1,15 @@
 import { ArrowLeft, Clapperboard, Headphones, Volume2 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import direction1Audio from "../assets/voice/lessons/direction-1.mp3";
-import direction3Audio from "../assets/voice/lessons/direction-3.mp3";
-import loop1Audio from "../assets/voice/lessons/loop-1.mp3";
 import { findCard } from "../data/course";
 import { runMission } from "../logic/robotEngine";
 import type { Cell, CommandStep, Direction, Mission } from "../types";
 
-const recordedTeacherAudio: Partial<Record<string, string>> = {
-  "direction-1": direction1Audio,
-  "direction-3": direction3Audio,
-  "loop-1": loop1Audio
-};
+const recordedTeacherAudio = Object.fromEntries(
+  Object.entries(import.meta.glob<string>("../assets/voice/lessons/*.mp3", { eager: true, import: "default", query: "?url" })).map(
+    ([path, audioUrl]) => [path.match(/([^/]+)\.mp3$/)?.[1] ?? path, audioUrl]
+  )
+);
 
 type Props = {
   mission: Mission;
