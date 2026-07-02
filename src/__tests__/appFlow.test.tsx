@@ -54,6 +54,7 @@ describe("App flow", () => {
     expect(screen.getByText("先看目标和机器人箭头。")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "▶ 重新播放" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "听老师讲解" })).toBeInTheDocument();
+    expect(document.querySelector('audio[src*="direction-1"]')).toBeInTheDocument();
   });
 
   it("shows voice guidance for ordinary missions", async () => {
@@ -65,6 +66,20 @@ describe("App flow", () => {
     expect(screen.getByText(/准备好了吗/)).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "听老师提示" }));
     expect(screen.getByText("老师正在带你读这段任务提示。")).toBeInTheDocument();
+  });
+
+  it("uses recorded teacher audio for prepared missions", async () => {
+    const { unmount } = render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "开始太空任务" }));
+    await userEvent.click(screen.getByRole("button", { name: "03第一次转弯" }));
+    expect(document.querySelector('audio[src*="direction-3"]')).toBeInTheDocument();
+    unmount();
+
+    window.localStorage.clear();
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "开始太空任务" }));
+    await userEvent.click(screen.getByRole("button", { name: "01连续采矿" }));
+    expect(document.querySelector('audio[src*="loop-1"]')).toBeInTheDocument();
   });
 
   it("explains turn missions with direction rules before running", async () => {

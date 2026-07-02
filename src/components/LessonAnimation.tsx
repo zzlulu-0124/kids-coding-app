@@ -1,9 +1,18 @@
 import { ArrowLeft, Clapperboard, Headphones, Volume2 } from "lucide-react";
 import type { CSSProperties } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import direction1Audio from "../assets/voice/lessons/direction-1.mp3";
+import direction3Audio from "../assets/voice/lessons/direction-3.mp3";
+import loop1Audio from "../assets/voice/lessons/loop-1.mp3";
 import { findCard } from "../data/course";
 import { runMission } from "../logic/robotEngine";
 import type { Cell, CommandStep, Direction, Mission } from "../types";
+
+const recordedTeacherAudio: Partial<Record<string, string>> = {
+  "direction-1": direction1Audio,
+  "direction-3": direction3Audio,
+  "loop-1": loop1Audio
+};
 
 type Props = {
   mission: Mission;
@@ -14,9 +23,19 @@ type Props = {
 export function LessonAnimation({ mission, onBack, onDone }: Props) {
   const isVideo = mission.introKind === "video";
   const narration = useMemo(() => buildNarration(mission), [mission]);
+  const recordedAudio = recordedTeacherAudio[mission.id];
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [spoken, setSpoken] = useState(false);
 
   function playNarration() {
+    if (recordedAudio && audioRef.current) {
+      window.speechSynthesis?.cancel();
+      audioRef.current.currentTime = 0;
+      void audioRef.current.play();
+      setSpoken(true);
+      return;
+    }
+
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(narration);
@@ -45,6 +64,7 @@ export function LessonAnimation({ mission, onBack, onDone }: Props) {
         </div>
         <h1>{mission.title}</h1>
         <p>{mission.goal}</p>
+        {recordedAudio && <audio ref={audioRef} src={recordedAudio} preload="metadata" />}
         <ShortAnimation mission={mission} isVideo={isVideo} narration={narration} spoken={spoken} />
         <div className="lesson-actions">
           <button className={spoken ? "voice-button speaking" : "voice-button"} type="button" onClick={playNarration}>
